@@ -1,0 +1,16 @@
+{
+  "zones": [
+    { "name": "domain", "patterns": ["src/domain/**"] },
+    { "name": "infrastructure", "patterns": ["src/infrastructure/**"] }
+  ],
+  "rules": [
+    {
+      "id": "domain-no-infrastructure",
+      "type": "forbid",
+      "from": "domain",
+      "to": "infrastructure",
+      "severity": "error"
+    }
+  ],
+  "suppressions": []
+}

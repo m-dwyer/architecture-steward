@@ -49,3 +49,15 @@ Architecture Steward reads `architecture-steward.config.json` from the target re
 - `export dependency-cruiser`: writes a dependency-cruiser config to stdout.
 
 Use `--target <path>` to point at a repository and `--config <path>` to use a non-default config.
+
+## Fixture Smoke Test
+
+The repository includes a tiny intentionally bad TypeScript project:
+
+```sh
+npm run build
+node dist/src/cli.js discover --target test/fixtures/tiny-bad-repo
+node dist/src/cli.js review --target test/fixtures/tiny-bad-repo
+```
+
+The review should report `src/domain/order.ts` importing `src/infrastructure/db.ts`, which violates the fixture's `domain-no-infrastructure` rule.

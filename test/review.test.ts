@@ -4,13 +4,15 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { analyzeRepository } from "../src/analyzer.js";
-import { validateConfig } from "../src/config.js";
+import { loadConfig, validateConfig } from "../src/config.js";
 import { createBaseline, reviewGraph } from "../src/review.js";
 import type { StewardConfig } from "../src/types.js";
 
+const tinyBadRepo = path.resolve("test/fixtures/tiny-bad-repo");
+
 test("review reports forbidden dependency with exact evidence", () => {
-  const repo = createFixtureRepo();
-  const config = fixtureConfig();
+  const repo = tinyBadRepo;
+  const config = loadConfig(repo);
   const result = reviewGraph(repo, config, analyzeRepository(repo, config));
 
   assert.equal(result.findings.length, 1);
