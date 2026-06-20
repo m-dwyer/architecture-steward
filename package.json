@@ -1,0 +1,26 @@
+{
+  "name": "architecture-steward",
+  "version": "0.1.0",
+  "description": "TypeScript-first architecture review CLI for dependency boundary checks.",
+  "type": "module",
+  "bin": {
+    "architecture-steward": "./dist/src/cli.js",
+    "archsteward": "./dist/src/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test dist/**/*.test.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.0"
+  },
+  "dependencies": {
+    "dependency-cruiser": "^17.4.3"
+  }
+}
