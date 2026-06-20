@@ -78,7 +78,9 @@ Examples:
 - TypeScript path aliases where supported.
 - Monorepo package relationships where supported.
 
-For the TypeScript MVP, dependency extraction should prefer `dependency-cruiser`. A built-in scanner may exist as a fallback, but the long-term intent is to lean on proven ecosystem tools.
+For the TypeScript MVP, dependency extraction should prefer `dependency-cruiser`. A built-in scanner may exist as a fallback, but the architectural boundary is the normalized graph produced by `analyzeRepository()`, not a class hierarchy of analyzers.
+
+The core review engine should never depend on dependency-cruiser concepts. It should consume only Architecture Steward's normalized dependency graph. Future Tree-sitter, native ecosystem, or heuristic analyzers can be added behind `analyzeRepository()` when they solve a concrete problem.
 
 ### Architecture Intent
 
@@ -167,23 +169,24 @@ Completion criteria:
 - The project can be installed, built, and executed as a Node CLI.
 - The command names are stable enough for later milestones.
 
-### Milestone 2: Dependency Fact Extraction
+### Milestone 2: Stabilize Analyzer Output Contract
 
 Goal:
 
-Extract deterministic dependency facts from TypeScript and JavaScript repositories.
+Define and harden the normalized dependency graph contract used by the rest of Architecture Steward.
 
 Capabilities:
 
-- Integrate or wrap `dependency-cruiser`.
+- Keep `analyzeRepository()` as the boundary between repository analysis and architecture review.
 - Produce a normalized internal dependency graph.
-- Capture source files.
-- Capture resolved internal imports.
-- Capture external package usage.
-- Capture unresolved imports.
-- Capture dependency cycles.
+- Capture source files, resolved internal imports, external package usage, unresolved imports, and dependency cycles.
 - Preserve file-path evidence for reporting.
 - Keep the internal graph independent of dependency-cruiser's raw output shape.
+- Add analyzer provenance, such as `dependency-cruiser` or `built-in-scanner`, to graph facts or graph diagnostics.
+- Add confidence levels where useful, such as high confidence for dependency-cruiser facts and lower confidence for scanner fallback facts.
+- Treat dependency-cruiser as the current high-confidence TypeScript/JavaScript strategy.
+- Treat the built-in scanner as a fallback, not an equal enforcement-grade analyzer.
+- Avoid adapter classes, registries, or a generalized analyzer framework until multiple strategies require it.
 
 Validation:
 
@@ -191,11 +194,13 @@ Validation:
 - Internal and external dependencies are distinguishable.
 - Cycles are detectable.
 - Unresolved imports are visible.
-- Analysis still has a controlled failure mode if dependency extraction fails.
+- JSON output exposes enough provenance/confidence information to explain where facts came from.
+- Analysis still has a controlled fallback or failure mode if dependency extraction fails.
 
 Completion criteria:
 
 - The rest of the system can operate on a normalized graph without knowing which tool produced it.
+- Adding a future Tree-sitter or language-native strategy would not require changing rule evaluation, baselines, suppressions, or report generation.
 
 ### Milestone 3: Architecture Rules Model
 
@@ -415,7 +420,9 @@ Likely order:
 3. Python via import graph tooling.
 4. Dart/Flutter via analyzer tooling.
 
-The core architecture model should remain language-neutral, but each language adapter should use native ecosystem tools where they are stronger than a universal parser.
+The core architecture model should remain language-neutral, but future analysis strategies should use native ecosystem tools where they are stronger than a universal parser.
+
+Avoid introducing an analyzer framework prematurely. Start with simple strategy functions behind `analyzeRepository()`. Split into separate analyzer modules only when growth makes that necessary.
 
 ### Organization-Level Governance
 
@@ -529,8 +536,9 @@ Still needs hardening:
 
 ## Suggested Next Steps
 
-1. Harden Milestone 2 with realistic TypeScript dependency resolution fixtures.
-2. Harden Milestone 5 with report snapshot or structure tests.
-3. Complete Milestone 6 by adding an explicit new-violations-only review mode.
-4. Improve Milestone 7 with unsupported export diagnostics.
-5. Improve Milestone 8 so discovery suggests candidate config, not just candidate zones.
+1. Stabilize Milestone 2 by adding provenance/confidence to the normalized dependency graph and reports.
+2. Add realistic TypeScript dependency resolution fixtures for path aliases, barrels, TSX, unresolved imports, external imports, and cycles.
+3. Harden Milestone 5 with report snapshot or structure tests.
+4. Complete Milestone 6 by adding an explicit new-violations-only review mode.
+5. Improve Milestone 7 with unsupported export diagnostics.
+6. Improve Milestone 8 so discovery suggests candidate config, not just candidate zones.
