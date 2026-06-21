@@ -2,9 +2,9 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { createRequire } from "node:module";
-import { classifyFiles } from "./classify.js";
-import { relativePath, toPosixPath } from "./path-utils.js";
-import type { DependencyEdge, DependencyGraph, StewardConfig } from "./types.js";
+import { classifyFiles } from "./classify.ts";
+import { relativePath, toPosixPath } from "./path-utils.ts";
+import type { DependencyEdge, DependencyGraph, StewardConfig } from "./types.ts";
 
 const supportedExtensions = [".ts", ".tsx", ".js", ".jsx", ".mts", ".cts", ".mjs", ".cjs"];
 const ignoredDirectories = new Set(["node_modules", ".git", "dist", "build", "coverage", ".next", ".turbo"]);

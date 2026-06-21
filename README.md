@@ -10,11 +10,20 @@ Initial MVP implementation.
 
 ## Quick Start
 
+Tooling is pinned with [mise](https://mise.jdx.dev) (Node + pnpm) and there is no
+build step — the CLI runs straight from TypeScript via Node's native type
+stripping.
+
 ```sh
-npm run build
-node dist/src/cli.js init --target ./some-repo
-node dist/src/cli.js review --target ./some-repo
+mise install        # provisions Node 24 + pnpm 10
+pnpm install        # installs dependencies
+archie init --target ./some-repo
+archie review --target ./some-repo
 ```
+
+`mise` puts the project's `bin/` on your `PATH` while you're in this directory,
+so `archie` is available directly. Outside the directory (or without mise) use
+`pnpm archie <command>` or `node src/cli.ts <command>`.
 
 ## Config
 
@@ -49,15 +58,38 @@ Architecture Steward reads `architecture-steward.config.json` from the target re
 - `export dependency-cruiser`: writes a dependency-cruiser config to stdout.
 
 Use `--target <path>` to point at a repository and `--config <path>` to use a non-default config.
+Run `archie --help` (or `archie <command> --help`) for full usage, and `archie --version`.
+
+## Shell Completion (zsh)
+
+`archie` ships tab completion for commands and flags (powered by yargs). Because
+mise only puts `archie` on your `PATH` inside this project, completion is
+effectively scoped to this directory: it lights up here and stays quiet
+elsewhere. One-time setup:
+
+```sh
+mkdir -p ~/.zsh/completions
+archie completion > ~/.zsh/completions/_archie
+```
+
+Then make sure your `~/.zshrc` loads that directory *before* `compinit`:
+
+```sh
+fpath=(~/.zsh/completions $fpath)
+autoload -Uz compinit && compinit
+```
+
+Open a new shell, `cd` into the project, and `archie <TAB>` will complete
+commands, while e.g. `archie review --<TAB>` completes flags. (bash works too —
+append `archie completion` to `~/.bashrc` instead.)
 
 ## Fixture Smoke Test
 
 The repository includes a tiny intentionally bad TypeScript project:
 
 ```sh
-npm run build
-node dist/src/cli.js discover --target test/fixtures/tiny-bad-repo
-node dist/src/cli.js review --target test/fixtures/tiny-bad-repo
+archie discover --target test/fixtures/tiny-bad-repo
+archie review --target test/fixtures/tiny-bad-repo
 ```
 
 The review should report `src/domain/order.ts` importing `src/infrastructure/db.ts`, which violates the fixture's `domain-no-infrastructure` rule.

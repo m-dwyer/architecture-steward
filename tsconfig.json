@@ -7,9 +7,9 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "rootDir": ".",
-    "outDir": "dist",
-    "declaration": true
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true
   },
   "include": ["src/**/*.ts", "test/**/*.ts"],
   "exclude": ["test/fixtures"]

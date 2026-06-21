@@ -1,4 +1,4 @@
-import type { StewardConfig } from "./types.js";
+import type { StewardConfig } from "./types.ts";
 
 export function exportDependencyCruiserConfig(config: StewardConfig): string {
   const forbidden = config.rules

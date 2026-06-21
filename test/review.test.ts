@@ -3,10 +3,10 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { analyzeRepository } from "../src/analyzer.js";
-import { loadConfig, validateConfig } from "../src/config.js";
-import { createBaseline, reviewGraph } from "../src/review.js";
-import type { StewardConfig } from "../src/types.js";
+import { analyzeRepository } from "../src/analyzer.ts";
+import { loadConfig, validateConfig } from "../src/config.ts";
+import { createBaseline, reviewGraph } from "../src/review.ts";
+import type { StewardConfig } from "../src/types.ts";
 
 const tinyBadRepo = path.resolve("test/fixtures/tiny-bad-repo");
 

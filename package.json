@@ -3,24 +3,28 @@
   "version": "0.1.0",
   "description": "TypeScript-first architecture review CLI for dependency boundary checks.",
   "type": "module",
+  "packageManager": "pnpm@10.33.2",
   "bin": {
-    "architecture-steward": "./dist/src/cli.js",
-    "archsteward": "./dist/src/cli.js"
+    "archie": "./src/cli.ts"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node --test dist/**/*.test.js",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "archie": "node src/cli.ts",
+    "review": "node src/cli.ts review",
+    "discover": "node src/cli.ts discover",
+    "test": "node --test \"test/**/*.test.ts\"",
+    "typecheck": "tsc -p tsconfig.json"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=23.6"
   },
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^24.0.0",
+    "@types/yargs": "^17.0.35",
     "typescript": "^5.9.0"
   },
   "dependencies": {
-    "dependency-cruiser": "^17.4.3"
+    "dependency-cruiser": "^17.4.3",
+    "yargs": "^18.0.0"
   }
 }

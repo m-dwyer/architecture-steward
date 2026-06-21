@@ -1,4 +1,4 @@
-import type { Finding, ReviewResult } from "./types.js";
+import type { Finding, ReviewResult } from "./types.ts";
 
 export function renderJson(result: ReviewResult): string {
   return `${JSON.stringify(result, null, 2)}\n`;

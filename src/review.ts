@@ -1,8 +1,8 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { classifyFile } from "./classify.js";
-import type { DependencyGraph, Finding, RuleConfig, StewardConfig, SuppressionConfig, ReviewResult } from "./types.js";
+import { classifyFile } from "./classify.ts";
+import type { DependencyGraph, Finding, RuleConfig, StewardConfig, SuppressionConfig, ReviewResult } from "./types.ts";
 
 export function reviewGraph(target: string, config: StewardConfig, graph: DependencyGraph): ReviewResult {
   const baseline = loadBaseline(target, config);

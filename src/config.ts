@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { RuleConfig, StewardConfig, SuppressionConfig, ZoneConfig } from "./types.js";
+import type { RuleConfig, StewardConfig, SuppressionConfig, ZoneConfig } from "./types.ts";
 
 export const defaultConfigFileName = "architecture-steward.config.json";
 

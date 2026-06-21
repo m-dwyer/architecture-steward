@@ -1,5 +1,5 @@
 import path from "node:path";
-import type { DependencyGraph } from "./types.js";
+import type { DependencyGraph } from "./types.ts";
 
 export function renderDiscovery(graph: DependencyGraph): string {
   const directories = new Map<string, number>();

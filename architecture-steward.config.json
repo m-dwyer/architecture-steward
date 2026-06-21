@@ -1,0 +1,52 @@
+{
+  "zones": [
+    {
+      "name": "ui",
+      "patterns": [
+        "src/ui/**"
+      ]
+    },
+    {
+      "name": "application",
+      "patterns": [
+        "src/application/**"
+      ]
+    },
+    {
+      "name": "domain",
+      "patterns": [
+        "src/domain/**"
+      ]
+    },
+    {
+      "name": "infrastructure",
+      "patterns": [
+        "src/infrastructure/**"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "domain-no-infrastructure",
+      "type": "forbid",
+      "from": "domain",
+      "to": "infrastructure",
+      "severity": "error"
+    },
+    {
+      "id": "domain-no-ui",
+      "type": "forbid",
+      "from": "domain",
+      "to": "ui",
+      "severity": "error"
+    },
+    {
+      "id": "ui-no-infrastructure",
+      "type": "forbid",
+      "from": "ui",
+      "to": "infrastructure",
+      "severity": "warn"
+    }
+  ],
+  "suppressions": []
+}

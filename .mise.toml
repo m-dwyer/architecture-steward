@@ -1,0 +1,8 @@
+[tools]
+node = "24"
+pnpm = "10"
+
+[env]
+# Put the project's `bin/` on PATH while inside this directory, so `archie`
+# runs the CLI directly (bin/archie is a symlink to src/cli.ts).
+_.path = ["{{config_root}}/bin"]
